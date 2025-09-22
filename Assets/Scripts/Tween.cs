@@ -3,34 +3,37 @@ using UnityEngine;
 
 public class Tween
 {
-    public float Duration { get; private set; }
-    public float ElapsedTime { get; private set; }
-    public bool IsFinished { get; private set; }
-    private Action<float> onUpdate;
-    private Func<float, float> easingFunction;
+    public float Duration { get; }//duration of tween animation
+    public float TimeElapsed { get; private set; }
+    public bool Completed { get; private set; }
 
+    private Action<float> onUpdate;
+
+    private Func<float, float> easingFunction;//optional easing function 
     public Tween(float duration, Action<float> onUpdate, Func<float, float> easingFunction = null)
     {
         Duration = duration;
         this.onUpdate = onUpdate;
         this.easingFunction = easingFunction ?? (t => t);
-        ElapsedTime = 0f;
-        IsFinished = false;
+        TimeElapsed = 0f;
+        Completed = false;
     }
-
     public void Update(float deltaTime)
     {
-        if (IsFinished) return;
+        if (Completed) return;
 
-        ElapsedTime += deltaTime;
-        float progress = Mathf.Clamp01(ElapsedTime / Duration);
-        float eased = easingFunction(progress);
-        onUpdate(eased);
+        TimeElapsed += deltaTime;
+        float progress = Mathf.Clamp01(TimeElapsed / Duration);
+        float easedProgress = easingFunction(progress);
 
-        if (ElapsedTime >= Duration)
+        onUpdate(easedProgress);
+
+        if (TimeElapsed >= Duration)
         {
-            IsFinished = true;
+            Completed = true;
             onUpdate(1f);
         }
     }
 }
+
+
