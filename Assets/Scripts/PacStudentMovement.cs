@@ -18,7 +18,7 @@ public class PacStudentMovement : MonoBehaviour
 
     private void Start()
     {
-        tweener = FindObjectOfType<Tweener>();
+        tweener = FindFirstObjectByType<Tweener>();
 
         if (Waypoints == null || Waypoints.Length == 0)//to check if waypoint array is set
         {

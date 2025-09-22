@@ -5,6 +5,10 @@ using UnityEngine;
 public class Tweener : MonoBehaviour
 {
     private readonly List<Tween> activeTweens = new List<Tween>();
+    public void AddTween(Tween tween)
+    {
+        activeTweens.Add(tween);
+    }
     void Update()
     {
         //To update the tween from last to first
