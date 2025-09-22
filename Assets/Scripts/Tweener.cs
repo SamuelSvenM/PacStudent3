@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Tweener : MonoBehaviour
@@ -15,26 +16,26 @@ public class Tweener : MonoBehaviour
                 GameObject go = new GameObject("Tweener");
                 instance = go.AddComponent<Tweener>();
                 DontDestroyOnLoad(go);
+
             }
             return instance;
         }
     }
-
     public void AddTween(Tween tween)
     {
         if (!activeTweens.Contains(tween))
             activeTweens.Add(tween);
     }
-
     private void Update()
     {
         float deltaTime = Time.deltaTime;
-
-        for (int i = activeTweens.Count - 1; i >= 0; i--)
+        for (int i = activeTweens.Count -1; i >= 0; i--)
         {
             activeTweens[i].Update(deltaTime);
-            if (activeTweens[i].IsFinished)
+
+            if (activeTweens[i].Completed)
                 activeTweens.RemoveAt(i);
         }
     }
 }
+

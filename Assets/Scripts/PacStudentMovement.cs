@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+
 public class PacStudentMovement : MonoBehaviour
 {
     public float tweenDuration = 1f;
@@ -12,7 +13,7 @@ public class PacStudentMovement : MonoBehaviour
     {
         if (positions == null || positions.Length == 0)
         {
-            Debug.LogError("Positions array is empty! Assign some coordinates.");
+            Debug.LogError("Positions array is empty!");
             return;
         }
 
@@ -64,4 +65,4 @@ public class PacStudentMovement : MonoBehaviour
     {
         return t * t * (3f - 2f * t);
     }
-} 
+}
