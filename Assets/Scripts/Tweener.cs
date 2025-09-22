@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Tweener : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    private readonly List<Tween> activeTweens = new List<Tween>();
     void Update()
     {
-        
+        //To update the tween from last to first
+        for (int i = activeTweens.Count -1; i>= 0;)
+        {
+            Tween tween = activeTweens[i];
+            tween.ElapsedTime += Vector3.Lerp(tween.StartPosition, tween.EndPos
+        }
     }
 }
