@@ -8,10 +8,21 @@ public class Tweener : MonoBehaviour
     void Update()
     {
         //To update the tween from last to first
-        for (int i = activeTweens.Count -1; i>= 0;)
+        for (int i = activeTweens.Count - 1; i >= 0; i--)
         {
             Tween tween = activeTweens[i];
-            tween.ElapsedTime += Vector3.Lerp(tween.StartPosition, tween.EndPos
+
+            tween.ElapsedTime = Time.deltaTime;//Advance elapsed time by frame duration for the frame-rate independent motion
+
+            tween.Target.position = Vector3.Lerp(tween.StartPosition, tween.EndPosition, tween.Progress);
+
+            //Removes tween once completed
+            if (tween.Progress >= 1f)
+            {
+                activeTweens.RemoveAt(i);
+            }
+
         }
     }
+
 }
