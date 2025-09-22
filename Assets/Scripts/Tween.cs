@@ -1,32 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Tween
 {
-    public Transform Target;
-    public Vector3 StartPosition;
-    public Vector3 EndPosition;
-    public float ElapsedTime;
-    public float Duration;
-    public Tween(Transform target, Vector3 start, Vector3 end, float duration)
-    {
+    public float Duration { get; private set; }
+    public float ElapsedTime { get; private set; }
+    public bool IsFinished { get; private set; }
+    private Action<float> onUpdate;
+    private Func<float, float> easingFunction;
 
-        Target = target;
-        StartPosition = start;
-        EndPosition = end;
+    public Tween(float duration, Action<float> onUpdate, Func<float, float> easingFunction = null)
+    {
         Duration = duration;
+        this.onUpdate = onUpdate;
+        this.easingFunction = easingFunction ?? (t => t);
         ElapsedTime = 0f;
-
+        IsFinished = false;
     }
-    public float Progress
+
+    public void Update(float deltaTime)
     {
-        get { return Mathf.Clamp01(ElapsedTime / Duration); }
+        if (IsFinished) return;
+
+        ElapsedTime += deltaTime;
+        float progress = Mathf.Clamp01(ElapsedTime / Duration);
+        float eased = easingFunction(progress);
+        onUpdate(eased);
+
+        if (ElapsedTime >= Duration)
+        {
+            IsFinished = true;
+            onUpdate(1f);
+        }
     }
 }
-
-
-
-
-
-  
